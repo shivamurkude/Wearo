@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'category',
+    'accounts',
     
 ]
 
@@ -71,7 +72,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Wearo.wsgi.application'
 
-
+AUTH_USER_MODEL='accounts.Account'
 
 DATABASES = {
     'default': {
@@ -120,6 +121,11 @@ STATIC_ROOT=BASE_DIR /'static'
 STATICFILES_DIRS=[
     "Wearo/static",
 ]
+#media files config
+MEDIA_URL='/media/'
+MEDIA_ROOT=BASE_DIR /'media'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
