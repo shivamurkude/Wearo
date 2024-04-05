@@ -3,26 +3,33 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 class MyAccountManager(BaseUserManager):
 
+   
+
     # Creating Normal User
 
-    def create_user(self, first_name, last_name, username, email, password=None):
+    def create_user(self, first_name, last_name, email, username=None, password=None):
 
         if not email:
             raise ValueError('User Must Have An Email.')
 
-        if not username:
-            raise ValueError('User Must Have An Username, Its Your Identity.')
-        
         user = self.model(
-            email = self.normalize_email(email),
-            username = username,
-            first_name = first_name,
-            last_name = last_name,
+            email=self.normalize_email(email),
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
         )
 
+        if username is None:
+            user.username = self.generate_username(first_name, last_name)
+
         user.set_password(password)
-        user.save(self._db)
+        user.save(using=self._db)
         return user
+
+    def generate_username(self, first_name, last_name):
+        # Generate username logic here, for example:
+        return f"{first_name.lower()}{last_name.lower()}"
+
 
     # Creating Super User.
 
